@@ -4,6 +4,13 @@
 #define DO_NOT_OPTIMIZE(variable) *(volatile char *)variable = *(volatile char *)variable
 
 
+#define ALWAYS_ZERO(x)            \
+    do {                          \
+        typeof(x) _tmp_ = (x);    \
+        if (_tmp_ != 0) exit(-1); \
+    } while (0);
+
+
 #define MAX(x, y) \
     ({ typeof(x) _x = (x); \
        typeof(y) _y = (y); \
@@ -40,6 +47,7 @@ int main()
     printf("MIN MAX : %d %d\n", MIN(1,2), MAX(3,4));
     BUILD_BUG_ON_WITH_ZERO(0);
     DO_NOT_OPTIMIZE(&a);
+    ALWAYS_ZERO(0);
 
     return 0;
 }
